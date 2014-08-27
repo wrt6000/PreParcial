@@ -1,0 +1,11 @@
+{
+    "displayName" : "Curso",
+    "name" : "curso",
+    "templateName" : "curso",
+    "url" : "curso.html",
+    "server": "localhost:8080",
+    "server": "localhost:8080",
+    "context": "/Conflicto.web/webresources/CursoMaster",
+    
+    "el" : "#main"
+}

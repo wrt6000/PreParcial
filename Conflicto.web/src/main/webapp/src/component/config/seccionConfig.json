@@ -1,0 +1,9 @@
+{
+    "displayName" : "Seccion",
+    "name" : "seccion",
+    "templateName" : "seccion",
+    "url" : "user.html",
+    "server": "localhost:8080",
+    "context": "/Conflicto.web/webresources/Seccion",
+    "el" : "#main"
+}

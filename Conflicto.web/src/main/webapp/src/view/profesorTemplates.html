@@ -1,0 +1,104 @@
+<script type="text/template" id="profesorList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>Nombre</th>
+		 <th>Años Experiencia</th>
+		 <th>Número Publicaciones</th>
+                 <th>Estado profesional</th>
+		 <th>Fecha Vinculación</th>
+                 
+    <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(profesors, function(profesor) { %>
+    <tr>
+		<td><%= htmlEncode(profesor.getDisplay('name')) %></td>
+		<td><%= htmlEncode(profesor.getDisplay('aniosExperiencia')) %></td>
+		<td><%= htmlEncode(profesor.getDisplay('numPublicaciones')) %></td>
+                <td><a onclick="Backbone.trigger('<%= componentId %>-profesor-status',{fechaVinculacion:'<%= htmlEncode(profesor.getDisplay('fechaVinculacion')) %>',numPublicaciones:<%= htmlEncode(profesor.getDisplay('numPublicaciones')) %> }); return false;" >Status</a></td>
+
+		<td><%= htmlEncode(profesor.getDisplay('fechaVinculacion')) %></td>
+               
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-profesor-edit',{id:<%= profesor.id %>}); return false" >Editar</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-profesor-delete',{id:<%= profesor.id %>}); return false" >Eliminar</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="profesor">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-profesorForm">
+    <% if(profesor.id) {%>
+    <input type="hidden" name="id" value="<%= profesor.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">Nombre</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= profesor.get('name') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="aniosExperiencia">Años Experiencia</label>
+    	<input type="text" class="form-control" id="aniosExperiencia" name="aniosExperiencia" placeholder="Enter value" value="<%= profesor.get('aniosExperiencia') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="numPublicaciones">Número de Publicaciones</label>
+    	<input type="text" class="form-control" id="numPublicaciones" name="numPublicaciones" placeholder="Enter value" value="<%= profesor.get('numPublicaciones') %>"/>	
+		</div>
+		<div class="form-group" >
+			<label for="fechaVinculacion">Fecha Vinculación</label>
+    		<input type="text" data-converter="date" data-date-format="dd/mm/yyyy" class="form-control" id="fechaVinculacion"  name="fechaVinculacion" placeholder="Enter value" />
+    		<%= '<scr'+'ipt>' %>
+        	$('#fechaVinculacion').datepicker({autoclose:true});
+        	$('#fechaVinculacion').datepicker('setDate',App.Utils.Converter.date.toDate("<%= profesor.get('fechaVinculacion') %>"));
+    		<%= '</scr'+'ipt>' %>
+		</div>
+    </form>
+    </div>
+</script> 
+
+<script type="text/template" id="profesorReconocidoList">
+    <div class="panel panel-default">
+    <!-- La información se va a presentar en una tabla -->
+    <table class="table striped">
+<!-- Estos son los encabezados de la tabla para cada campo del model (estos se visualizan) -->
+    <thead>
+    <tr>
+         <th>Nombre</th>
+         <th>Años de Vinculación</th>
+    </tr>
+    </thead>
+    <tbody>
+<!-- Aqui se renderizan los modelos existentes en el modelo de la lista sports. Note el uso de javascript en el interior de los tags <% %> (en este caso un bucle que toma cada ítem de la lista ‘sports’). La variable ‘sports’ será instanciada por el controlador (se verá más adelante) -->
+    <% _.each(profesores, function(profesor) { %>
+<!-- Se hace un nuevo <tr> por cada elemento en la lista-->
+        <%if (profesor.getDisplay('anios')===5||profesor.getDisplay('anios')===10||profesor.getDisplay('anios')===20||profesor.getDisplay('anios')===35) {%>
+            <tr class="success">
+            <td><%= htmlEncode(profesor.getDisplay('name')) %></td>
+            <!-- esta instrucción indica qué campo del elemento actual del bucle se debe mostrar en ese lugar (cada <td> es una columna)>  -->
+            <td><%= htmlEncode(profesor.getDisplay('anios')) %></td>
+            </tr>
+        <%}%>
+        <%if (profesor.getDisplay('anios')!=5&&profesor.getDisplay('anios')!=10&&profesor.getDisplay('anios')!=20&&profesor.getDisplay('anios')!=35) {%>
+        <tr>
+            <td><%= htmlEncode(profesor.getDisplay('name')) %></td>
+            <!-- esta instrucción indica qué campo del elemento actual del bucle se debe mostrar en ese lugar (cada <td> es una columna)>  -->
+            <td><%= htmlEncode(profesor.getDisplay('anios')) %></td>
+        </tr>
+        <%}%>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>

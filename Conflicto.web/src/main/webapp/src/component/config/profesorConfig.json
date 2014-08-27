@@ -1,0 +1,9 @@
+{
+    "displayName" : "Profesor",
+    "name" : "profesor",
+    "templateName" : "profesor",
+    "url" : "user.html",
+    "server": "localhost:8080",
+    "context": "/Conflicto.web/webresources/Profesor",
+    "el" : "#main"
+}

@@ -1,0 +1,9 @@
+{
+    "displayName" : "Curso",
+    "name" : "curso",
+    "templateName" : "curso",
+    "url" : "user.html",
+    "server": "localhost:8080",
+    "context": "/Conflicto.web/webresources/Curso",
+    "el" : "#main"
+}

@@ -1,0 +1,54 @@
+<script type="text/template" id="estudianteList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>Estudiante</th>
+		 <th>Creditos</th>
+		 <th>Puntos Calidad</th>
+    <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(estudiantes, function(estudiante) { %>
+    <tr>
+		<td><%= htmlEncode(estudiante.getDisplay('name')) %></td>
+		<td><%= htmlEncode(estudiante.getDisplay('creditos')) %></td>
+		<td><%= htmlEncode(estudiante.getDisplay('puntosCalidad')) %></td>
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-estudiante-edit',{id:<%= estudiante.id %>}); return false" >Editar</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-estudiante-delete',{id:<%= estudiante.id %>}); return false" >Eliminar</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="estudiante">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-estudianteForm">
+    <% if(estudiante.id) {%>
+    <input type="hidden" name="id" value="<%= estudiante.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">Nombre</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= estudiante.get('name') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="creditos">Créditos</label>
+    	<input type="text" class="form-control" id="creditos" name="creditos" placeholder="Enter value" value="<%= estudiante.get('creditos') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="puntosCalidad">Puntos de Calidad</label>
+    	<input type="text" class="form-control" id="puntosCalidad" name="puntosCalidad" placeholder="Enter value" value="<%= estudiante.get('puntosCalidad') %>"/>	
+		</div>
+    </form>
+    </div>
+</script> 

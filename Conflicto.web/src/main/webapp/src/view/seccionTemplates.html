@@ -1,0 +1,115 @@
+<script type="text/template" id="seccionList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>Sección</th>
+		 <th>Cupo Maximo</th>
+		 <th>Salón</th>
+		 <th>Inscritos</th>
+		 <th>Profesor_seccion Id</th>
+    <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(seccions, function(seccion) { %>
+    <tr>
+		<td><%= htmlEncode(seccion.getDisplay('name')) %></td>
+		<td><%= htmlEncode(seccion.getDisplay('cupoMaximo')) %></td>
+		<td><%= htmlEncode(seccion.getDisplay('salon')) %></td>
+		<td><%= htmlEncode(seccion.getDisplay('inscritos')) %></td>
+		<td><%= htmlEncode(seccion.getDisplay('profesor_seccionId')) %></td>
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-seccion-edit',{id:<%= seccion.id %>}); return false" >Editar</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-seccion-delete',{id:<%= seccion.id %>}); return false" >Eliminar</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="seccion">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-seccionForm">
+    <% if(seccion.id) {%>
+    <input type="hidden" name="id" value="<%= seccion.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">Nombre</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= seccion.get('name') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="cupoMaximo">Cupo Máximo</label>
+    	<input type="text" class="form-control" id="cupoMaximo" name="cupoMaximo" placeholder="Enter value" value="<%= seccion.get('cupoMaximo') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="salon">Salon</label>
+    	<input type="text" class="form-control" id="salon" name="salon" placeholder="Enter value" value="<%= seccion.get('salon') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="inscritos">Inscritos</label>
+    	<input type="text" class="form-control" id="inscritos" name="inscritos" placeholder="Enter value" value="<%= seccion.get('inscritos') %>"/>	
+		</div>
+		<div class="form-group" >
+ 
+			<label for="profesor_seccionidId">Profesor_seccion Id</label> 
+            <select class="form-control" id="profesor_seccionId" name="profesor_seccionId">
+			  <option value="">None</option>
+            <% profesor_seccion.each(function(profesor_seccionid) { %> 
+              <option value="<%=profesor_seccionid.get('id')%>" <% if(seccion.get('profesor_seccionId')==profesor_seccionid.get('id')) {%>selected<%}%> ><%=profesor_seccionid.get('name')%></option>
+            <% }); %>                
+            </select>  
+		</div>
+    </form>
+    </div>
+</script> 
+
+<script type="text/template" id="seccionDisponibleList">
+    <div class="panel panel-default">
+    <!-- La información se va a presentar en una tabla -->
+    <table class="table striped">
+<!-- Estos son los encabezados de la tabla para cada campo del model (estos se visualizan) -->
+    <thead>
+    <tr>
+         <th>Seccion</th>
+         <th>Cupos Disponibles</th>
+    </tr>
+    </thead>
+    <tbody>
+<!-- Aqui se renderizan los modelos existentes en el modelo de la lista sports. Note el uso de javascript en el interior de los tags <% %> (en este caso un bucle que toma cada ítem de la lista ‘sports’). La variable ‘sports’ será instanciada por el controlador (se verá más adelante) -->
+    <% _.each(secciones, function(seccion) { %>
+<!-- Se hace un nuevo <tr> por cada elemento en la lista-->
+    
+    <% if(seccion.getDisplay('disponibles')<=0) {%>
+     <tr class="danger">
+            <td><%= htmlEncode(seccion.getDisplay('name')) %></td>
+            <!-- esta instrucción indica qué campo del elemento actual del bucle se debe mostrar en ese lugar (cada <td> es una columna)>  -->
+            <td><%= htmlEncode(seccion.getDisplay('disponibles')) %></td>
+    </tr>
+	<% } %>
+    <% if(seccion.getDisplay('disponibles')>0&&seccion.getDisplay('casi')==="no") {%>
+        <tr>
+            <td><%= htmlEncode(seccion.getDisplay('name')) %></td>
+            <!-- esta instrucción indica qué campo del elemento actual del bucle se debe mostrar en ese lugar (cada <td> es una columna)>  -->
+            <td><%= htmlEncode(seccion.getDisplay('disponibles')) %></td>    
+       <% } %> 
+   <%if(seccion.getDisplay('casi')==="si"&& seccion.getDisplay('disponibles')>=0) {%>
+   <tr class="warning">
+            <td><%= htmlEncode(seccion.getDisplay('name')) %></td>
+            <!-- esta instrucción indica qué campo del elemento actual del bucle se debe mostrar en ese lugar (cada <td> es una columna)>  -->
+            <td><%= htmlEncode(seccion.getDisplay('disponibles')) %></td>
+    </tr>
+    <% } %>
+   
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
